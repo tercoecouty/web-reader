@@ -1,0 +1,81 @@
+@import "../../less/_variable.less";
+@import "../../less/_mixin.less";
+
+.page {
+    width: 50%;
+
+    &:first-child {
+        border-right: 1px solid black;
+    }
+
+    &:only-child {
+        border-left: 1px solid black;
+    }
+
+    &:nth-child(2) {
+        border-left: 1px solid black;
+    }
+}
+
+.page-head,
+.page-foot {
+    height: @page-head-height;
+}
+
+.page-body {
+    height: calc(100vh - @page-head-height * 2);
+    padding: 0 24px;
+}
+
+.page-content {
+    height: 100%;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    line-height: 1.2;
+
+    > .char-measurement {
+        position: absolute;
+        opacity: 0;
+    }
+}
+
+.page-loading {
+    height: 100%;
+    .flex-center();
+}
+
+.page-head {
+    border-bottom: 1px solid black;
+}
+
+.page-foot {
+    .flex-center();
+    user-select: none;
+    font-size: 14px;
+    border-top: 1px solid black;
+}
+
+.line {
+    > span {
+        display: inline-block;
+    }
+
+    padding: 4px 0;
+}
+
+.underline {
+    border-bottom: 2px solid @main-color;
+    margin-bottom: -2px;
+    cursor: pointer;
+}
+
+.underline-selected {
+    border-bottom: 2px solid #fa8c16;
+    margin-bottom: -2px;
+    cursor: pointer;
+}
+
+.selection {
+    background-color: #308cf9;
+    color: white;
+}

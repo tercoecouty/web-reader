@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "jsx": "preserve",
+        "esModuleInterop": true,
+        // "allowJs": true,
+        "outDir": "dist",
+        "target": "es2020",
+        "moduleResolution": "node"
+    },
+    "includes": ["src/**/*"]
+}
