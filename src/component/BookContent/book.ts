@@ -3,6 +3,7 @@ export interface ILine {
     spacing: number;
     isFirstLine: boolean;
     firstCharId: number;
+    paraId: number;
 }
 
 export interface IPage {
@@ -31,7 +32,7 @@ export default class Book {
         this.chineseCharWidth = this.domMeasure.getBoundingClientRect().width;
         this.charHeight = this.domMeasure.getBoundingClientRect().height;
 
-        this.charHeight += 8; // padding-bottom
+        this.charHeight += 5 * 2; // padding-top and padding bottom
     }
 
     public pageBreaking() {
@@ -68,11 +69,12 @@ export default class Book {
     private lineBreaking() {
         const lines: ILine[] = [];
         let charId = 1;
+        let paraId = 1;
         for (const paraText of this.bookText.split("\n")) {
             let isFirstLine = true;
             let lineWidth = this.chineseCharWidth * 2; // two indent
             let lineText = "";
-            for (const char of paraText) {
+            for (const char of paraText.trim()) {
                 const charWidth = this.getCharWidth(char);
                 if (lineWidth + charWidth > this.totalWidth) {
                     let spacing = (this.totalWidth - lineWidth) / lineText.length;
@@ -82,6 +84,7 @@ export default class Book {
                         spacing,
                         isFirstLine,
                         firstCharId: charId - lineText.length,
+                        paraId,
                     });
                     lineText = char;
                     lineWidth = charWidth;
@@ -100,7 +103,10 @@ export default class Book {
                 spacing: 0,
                 isFirstLine,
                 firstCharId: charId - lineText.length,
+                paraId,
             });
+
+            paraId++;
         }
 
         return lines;

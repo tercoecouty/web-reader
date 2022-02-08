@@ -8,12 +8,11 @@ import getBookText from "../../api/getBookText";
 import Book from "./book";
 
 import { setPages, setPageLoading, setRange, nextPage, prevPage } from "../../reducer/bookReducer";
-import { selectRange, selectPageNumber, selectTwoPage } from "../../reducer/bookReducer";
+import { selectRange, selectTwoPage } from "../../reducer/bookReducer";
 
 export default function BookContent() {
     const dispatch = useDispatch();
     const range = useSelector(selectRange);
-    const pageNumber = useSelector(selectPageNumber);
     const twoPage = useSelector(selectTwoPage);
     const [bookText, setBookText] = useState("");
     const [resizeTimer, setResizeTimer] = useState(null);
@@ -32,7 +31,7 @@ export default function BookContent() {
     useEffect(() => {
         getBookText().then((bookText) => {
             setBookText(bookText);
-            setTimeout(() => loadPage(bookText), 1000);
+            setTimeout(() => loadPage(bookText), 100);
         });
     }, []);
 
@@ -90,8 +89,8 @@ export default function BookContent() {
 
     return (
         <div className="book-content" onMouseUp={handleMouseUp}>
-            <Page pageNumber={pageNumber} />
-            {twoPage ? <Page pageNumber={pageNumber + 1} /> : null}
+            <Page />
+            {twoPage ? <Page isPageTwo /> : null}
         </div>
     );
 }

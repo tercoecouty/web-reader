@@ -29,6 +29,14 @@ let config = {
                 test: /\.svg$/,
                 use: "raw-loader",
             },
+            {
+                test: /\.png$/,
+                loader: "file-loader",
+                options: {
+                    outputPath: "images",
+                    name: "[name].[ext]",
+                },
+            },
         ],
     },
     plugins: [

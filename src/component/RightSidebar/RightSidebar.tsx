@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import "./RightSidebar.less";
 import SidebarItem from "../SidebarItem/SidebarItem";
 
-import FullscreenOutlined from "@ant-design/icons/FullscreenOutlined";
-import ArrowRightOutlined from "@ant-design/icons/ArrowRightOutlined";
-import ArrowLeftOutlined from "@ant-design/icons/ArrowLeftOutlined";
-import UnderlineOutlined from "@ant-design/icons/UnderlineOutlined";
-import EditOutlined from "@ant-design/icons/EditOutlined";
-import DeleteOutlined from "@ant-design/icons/DeleteOutlined";
+import FullscreenSvg from "./fullscreen.svg";
+import ArrowRightSvg from "./arrow-right.svg";
+import ArrowLeftSvg from "./arrow-left.svg";
+import UnderlineSvg from "./underline.svg";
+import EditOutSvg from "./edit.svg";
+import DeleteSvg from "./delete.svg";
 
 import { nextPage, prevPage, setRange, setCurrentNoteId } from "../../reducer/bookReducer";
 import {
@@ -36,28 +36,28 @@ export default function RightSidebar() {
     };
 
     const handleDeleteNote = () => {
-        dispatch(deleteNote());
+        dispatch(deleteNote(currentNoteId));
         dispatch(setCurrentNoteId(null));
     };
 
     return (
         <div className="right-sidebar">
-            <SidebarItem Icon={FullscreenOutlined} title="全屏" disabled />
+            <SidebarItem svg={FullscreenSvg} title="全屏" disabled />
             <SidebarItem
-                Icon={ArrowLeftOutlined}
+                svg={ArrowLeftSvg}
                 title="上一页"
                 onClick={() => dispatch(prevPage())}
                 disabled={pageNumber === 1}
             />
             <SidebarItem
-                Icon={ArrowRightOutlined}
+                svg={ArrowRightSvg}
                 title="下一页"
                 onClick={() => dispatch(nextPage())}
                 disabled={disableNextPage(pageNumber, pages.length, twoPage)}
             />
-            <SidebarItem Icon={UnderlineOutlined} title="划线" onClick={handleAddNote} disabled={!range} />
-            <SidebarItem Icon={DeleteOutlined} title="删除笔记" onClick={handleDeleteNote} disabled={!currentNoteId} />
-            <SidebarItem Icon={EditOutlined} title="编辑笔记" disabled />
+            <SidebarItem svg={UnderlineSvg} title="划线" onClick={handleAddNote} disabled={!range} />
+            <SidebarItem svg={DeleteSvg} title="删除笔记" onClick={handleDeleteNote} disabled={!currentNoteId} />
+            <SidebarItem svg={EditOutSvg} title="编辑笔记" disabled />
         </div>
     );
 }

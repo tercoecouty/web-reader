@@ -40,8 +40,9 @@ const noteSlice = createSlice({
             };
             state.notes.push(note);
         },
-        deleteNote: (state) => {
-            state.notes = [];
+        deleteNote: (state, actions: PayloadAction<number>) => {
+            const noteId = actions.payload;
+            state.notes = state.notes.filter((note) => note.id !== noteId);
         },
     },
 });
