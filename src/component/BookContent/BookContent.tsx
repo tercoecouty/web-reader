@@ -66,7 +66,8 @@ export default function BookContent() {
 
     const handleMouseUp = () => {
         const selection = document.getSelection();
-        if (selection.toString() === "") {
+        const text = selection.toString();
+        if (text === "") {
             if (range) {
                 dispatch(setRange(null));
             }
@@ -80,9 +81,9 @@ export default function BookContent() {
 
         dispatch(
             setRange({
-                firstCharId: Math.min(charId1, charId2),
-                lastCharId: Math.max(charId1, charId2),
-                text: selection.toString(),
+                firstCharId: charId1 > charId2 ? charId2 : charId1,
+                lastCharId: charId1 > charId2 ? charId1 : charId2,
+                text,
             })
         );
     };
@@ -90,7 +91,7 @@ export default function BookContent() {
     return (
         <div className="book-content" onMouseUp={handleMouseUp}>
             <Page />
-            {twoPage ? <Page isPageTwo /> : null}
+            {twoPage ? <Page isSecondPage /> : null}
         </div>
     );
 }

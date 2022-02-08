@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPage } from "../component/BookContent/book";
+import { IPage, ILine } from "../component/BookContent/book";
 import { RootState } from "../store";
 
 interface IRange {
@@ -87,3 +87,23 @@ export const selectPageNumber = (state: RootState) => state.book.pageNumber;
 export const selectPageLoading = (state: RootState) => state.book.pageLoading;
 export const selectCurrentNoteId = (state: RootState) => state.book.currentNoteId;
 export const selectTwoPage = (state: RootState) => state.book.twoPage;
+export const selectCurrentNoteIdByLine = (state, line: ILine) => {
+    const currentNoteId = state.book.currentNoteId;
+    if (currentNoteId === null) return null;
+
+    const notes = state.note.notes;
+    const firstCharId = line.firstCharId;
+    const lastCharId = line.firstCharId + line.text.length - 1;
+    let notesByLine = notes.filter((note) => {
+        if (note.lastCharId < firstCharId || note.firstCharId > lastCharId) return false;
+        return true;
+    });
+
+    for (const note of notesByLine) {
+        if (note.id === currentNoteId) {
+            return currentNoteId;
+        }
+    }
+
+    return null;
+};

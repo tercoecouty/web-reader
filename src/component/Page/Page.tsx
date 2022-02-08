@@ -2,62 +2,29 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./Page.less";
-import BookmarkImage from "./bookmark.png";
-import BookmarkFilledImage from "./bookmark-filled.png";
+import Bookmark from "./Bookmark";
+import Line from "./Line";
 
 import { setCurrentNoteId } from "../../reducer/bookReducer";
-import { selectPages, selectPageLoading, selectCurrentNoteId, selectPageNumber } from "../../reducer/bookReducer";
-import { selectNotes } from "../../reducer/noteReducer";
-import { addBookMark, removeBookMark } from "../../reducer/bookmarkReducer";
-import { selectBookmarks } from "../../reducer/bookmarkReducer";
+import { selectPages, selectPageLoading, selectPageNumber } from "../../reducer/bookReducer";
 
 interface IPageProps {
-    isPageTwo?: boolean;
+    isSecondPage?: boolean;
 }
 
-export default function Page(props: IPageProps) {
+function Page(props: IPageProps) {
     const dispatch = useDispatch();
     const _pageNumber = useSelector(selectPageNumber);
-    const pageNumber = props.isPageTwo ? _pageNumber + 1 : _pageNumber;
+    const pageNumber = props.isSecondPage ? _pageNumber + 1 : _pageNumber;
     const pages = useSelector(selectPages);
     const loading = useSelector(selectPageLoading);
-    const notes = useSelector(selectNotes);
-    const currentNoteId = useSelector(selectCurrentNoteId);
-    const bookmarks = useSelector(selectBookmarks);
-
-    const getLineContent = (lineText: string, firstCharId: number) => {
-        return Array.from(lineText).map((char, index) => {
-            const charId = firstCharId + index;
-            let noteId = null;
-
-            for (const note of notes) {
-                if (charId >= note.firstCharId && charId <= note.lastCharId) {
-                    noteId = note.id;
-                    break;
-                }
-            }
-
-            if (noteId) {
-                const className = currentNoteId && currentNoteId === noteId ? "underline-selected" : "underline";
-                return (
-                    <span data-note-id={noteId} data-char-id={charId} key={index} className={className}>
-                        {char}
-                    </span>
-                );
-            }
-
-            return (
-                <span data-char-id={charId} key={index}>
-                    {char}
-                </span>
-            );
-        });
-    };
 
     const getPageContent = () => {
-        console.log(Date.now());
+        console.log("getPageContent");
         const lines = pages[pageNumber - 1].lines;
-        return lines.map((line, index) => {
+        const dom_lines = [];
+        for (let index_line = 0; index_line < lines.length; index_line++) {
+            const line = lines[index_line];
             let style: any = {
                 letterSpacing: line.spacing + "px",
                 padding: `${5 + pages[0].spacing / 2}px 0`,
@@ -72,12 +39,10 @@ export default function Page(props: IPageProps) {
                 style.boxSizing = "content-box";
             }
 
-            return (
-                <div key={index} className="line" style={style} data-para-id={line.paraId}>
-                    {getLineContent(line.text, line.firstCharId)}
-                </div>
-            );
-        });
+            dom_lines.push(<Line key={index_line} line={line} style={style} />);
+        }
+
+        return dom_lines;
     };
 
     const pageLoading = (
@@ -89,34 +54,18 @@ export default function Page(props: IPageProps) {
     const handleClick = (e) => {
         const noteId = parseInt(e.target.dataset.noteId);
         if (!noteId) {
-            if (currentNoteId) {
-                dispatch(setCurrentNoteId(null));
-            }
+            dispatch(setCurrentNoteId(null));
+            return;
         }
 
         dispatch(setCurrentNoteId(noteId));
     };
 
-    const getBookMarkContent = () => {
-        if (loading || pageNumber > pages.length) return null;
-        if (bookmarks.includes(pageNumber)) {
-            return (
-                <div className="bookmark" onClick={() => dispatch(removeBookMark(pageNumber))}>
-                    <img src={BookmarkFilledImage} />
-                </div>
-            );
-        } else {
-            return (
-                <div className="bookmark" onClick={() => dispatch(addBookMark(pageNumber))}>
-                    <img src={BookmarkImage} />
-                </div>
-            );
-        }
-    };
-
     return (
         <div className="page">
-            <div className="page-head">{getBookMarkContent()}</div>
+            <div className="page-head">
+                {loading || pageNumber > pages.length ? null : <Bookmark pageNumber={pageNumber} />}
+            </div>
             <div className="page-body">
                 <div id="page-content" className="page-content" onClick={handleClick}>
                     <span id="char-measurement" className="char-measurement"></span>
@@ -129,3 +78,5 @@ export default function Page(props: IPageProps) {
         </div>
     );
 }
+
+export default React.memo(Page);

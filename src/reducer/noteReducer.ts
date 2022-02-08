@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { ILine } from "..//component/BookContent/book";
 
 interface IRange {
     firstCharId: number;
@@ -22,7 +23,7 @@ interface INoteState {
 
 const initialState: INoteState = {
     notes: [],
-    noteId: 1,
+    noteId: 1, // for generating unique note id
 };
 
 const noteSlice = createSlice({
@@ -49,4 +50,14 @@ const noteSlice = createSlice({
 
 export default noteSlice.reducer;
 export const { addNote, deleteNote } = noteSlice.actions;
-export const selectNotes = (state: RootState) => state.note.notes;
+export const selectNotesByLine = (state, line: ILine) => {
+    const notes = state.note.notes as INote[];
+    const firstCharId = line.firstCharId;
+    const lastCharId = line.firstCharId + line.text.length - 1;
+    let notesByLine = notes.filter((note) => {
+        if (note.lastCharId < firstCharId || note.firstCharId > lastCharId) return false;
+        return true;
+    });
+
+    return JSON.stringify(notesByLine);
+};
