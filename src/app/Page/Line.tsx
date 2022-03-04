@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectNotesByLine } from "../../reducer/noteReducer";
-import { selectCurrentNoteIdByLine } from "../../reducer/bookReducer";
-import { ILine } from "../BookContent/book";
+import { selectNotesByLine } from "../RightSidebar/noteReducer";
+import { selectCurrentNoteIdByLine } from "../Book/bookReducer";
+import { ILine } from "../Book/books";
 
 interface ILineProps {
     line: ILine;

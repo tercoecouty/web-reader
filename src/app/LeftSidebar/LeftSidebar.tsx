@@ -2,13 +2,13 @@ import React from "react";
 
 import "./LeftSidebar.less";
 
-import SidebarItem from "../SidebarItem/SidebarItem";
+import SidebarItem from "../../component/SidebarItem/SidebarItem";
 
-import TeamSvg from "./team.svg";
-import BarsSvg from "./bars.svg";
-import SearchSvg from "./search.svg";
-import BookSvg from "./book.svg";
-import SettingSvg from "./setting.svg";
+import TeamSvg from "./svg/team.svg";
+import BarsSvg from "./svg/bars.svg";
+import SearchSvg from "./svg/search.svg";
+import BookSvg from "./svg/book.svg";
+import SettingSvg from "./svg/setting.svg";
 
 export default function LeftSidebar() {
     return (

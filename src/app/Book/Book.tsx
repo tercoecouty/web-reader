@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import "./BookContent.less";
+import "./Book.less";
 import Page from "../Page/Page";
 
 import getBookText from "../../api/getBookText";
-import Book from "./book";
+import Books from "./books";
 
-import { setPages, setPageLoading, setRange, nextPage, prevPage } from "../../reducer/bookReducer";
-import { selectRange, selectTwoPage } from "../../reducer/bookReducer";
+import { setPages, setPageLoading, setRange, nextPage, prevPage } from "./bookReducer";
+import { selectRange, selectTwoPage } from "./bookReducer";
 
-export default function BookContent() {
+export default function Book() {
     const dispatch = useDispatch();
     const range = useSelector(selectRange);
     const twoPage = useSelector(selectTwoPage);
@@ -22,7 +22,7 @@ export default function BookContent() {
         const totalWidth = domPageContent.getBoundingClientRect().width;
         const totalHeight = domPageContent.getBoundingClientRect().height;
         const domMeasure = document.getElementById("char-measurement");
-        const book = new Book(bookText, totalWidth, totalHeight, domMeasure);
+        const book = new Books(bookText, totalWidth, totalHeight, domMeasure);
         const pages = book.pageBreaking();
         dispatch(setPages(pages));
         dispatch(setPageLoading(false));

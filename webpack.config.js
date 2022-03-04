@@ -41,7 +41,7 @@ let config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: isDev ? "src/index-dev.html" : "src/index-prod.html",
+            template: isDev ? "public/index-dev.html" : "public/index-prod.html",
             inject: "body",
         }),
         new MiniCssExtractPlugin(),

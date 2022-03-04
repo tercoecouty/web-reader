@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPage, ILine } from "../component/BookContent/book";
-import { RootState } from "../store";
+import { IPage, ILine } from "./books";
+import { RootState } from "../../store";
 
 interface IRange {
     firstCharId: number;

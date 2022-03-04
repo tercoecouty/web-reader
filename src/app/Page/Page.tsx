@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./Page.less";
-import Bookmark from "./Bookmark";
+import Bookmark from "../Bookmark/Bookmark";
 import Line from "./Line";
 
-import { setCurrentNoteId } from "../../reducer/bookReducer";
-import { selectPages, selectPageLoading, selectPageNumber } from "../../reducer/bookReducer";
+import { setCurrentNoteId } from "../Book/bookReducer";
+import { selectPages, selectPageLoading, selectPageNumber } from "../Book/bookReducer";
 
 interface IPageProps {
     isSecondPage?: boolean;

@@ -11,7 +11,7 @@ export interface IPage {
     spacing: number;
 }
 
-export default class Book {
+export default class Books {
     private bookText = "";
     private totalWidth = 0;
     private totalHeight = 0;

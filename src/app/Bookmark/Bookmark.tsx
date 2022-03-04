@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import BookmarkImage from "./bookmark.png";
 import BookmarkFilledImage from "./bookmark-filled.png";
 
-import { addBookMark, removeBookMark } from "../../reducer/bookmarkReducer";
-import { selectBookmarks } from "../../reducer/bookmarkReducer";
+import { addBookMark, removeBookMark } from "./bookmarkReducer";
+import { selectBookmarks } from "./bookmarkReducer";
 
 interface IPageHeadProps {
     pageNumber?: number;

@@ -2,25 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./RightSidebar.less";
-import SidebarItem from "../SidebarItem/SidebarItem";
+import SidebarItem from "../../component/SidebarItem/SidebarItem";
 
-import FullscreenSvg from "./fullscreen.svg";
-import ArrowRightSvg from "./arrow-right.svg";
-import ArrowLeftSvg from "./arrow-left.svg";
-import UnderlineSvg from "./underline.svg";
-import EditOutSvg from "./edit.svg";
-import DeleteSvg from "./delete.svg";
+import FullscreenSvg from "./svg/fullscreen.svg";
+import ArrowRightSvg from "./svg/arrow-right.svg";
+import ArrowLeftSvg from "./svg/arrow-left.svg";
+import UnderlineSvg from "./svg/underline.svg";
+import EditOutSvg from "./svg/edit.svg";
+import DeleteSvg from "./svg/delete.svg";
 
-import { nextPage, prevPage, setRange, setCurrentNoteId } from "../../reducer/bookReducer";
-import {
-    selectRange,
-    selectPages,
-    selectPageNumber,
-    selectCurrentNoteId,
-    selectTwoPage,
-} from "../../reducer/bookReducer";
-import { disableNextPage } from "../../reducer/bookReducer";
-import { addNote, deleteNote } from "../../reducer/noteReducer";
+import { nextPage, prevPage, setRange, setCurrentNoteId } from "../Book/bookReducer";
+import { selectRange, selectPages, selectPageNumber, selectCurrentNoteId, selectTwoPage } from "../Book/bookReducer";
+import { disableNextPage } from "../Book/bookReducer";
+import { addNote, deleteNote } from "./noteReducer";
 
 export default function RightSidebar() {
     const dispatch = useDispatch();
