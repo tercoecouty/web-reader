@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import bookReducer from "./app/Book/bookReducer";
-import noteReducer from "./app/RightSidebar/noteReducer";
-import bookmarkReducer from "./app/Bookmark/bookmarkReducer";
+import bookReducer from "./slice/bookSlice";
+import noteReducer from "./slice/noteSlice";
+import bookmarkReducer from "./slice/bookmarkSlice";
 
 const store = configureStore({
     reducer: {

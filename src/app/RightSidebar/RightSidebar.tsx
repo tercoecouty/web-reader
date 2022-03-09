@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./RightSidebar.less";
@@ -11,10 +11,18 @@ import UnderlineSvg from "./svg/underline.svg";
 import EditOutSvg from "./svg/edit.svg";
 import DeleteSvg from "./svg/delete.svg";
 
-import { nextPage, prevPage, setRange, setCurrentNoteId } from "../Book/bookReducer";
-import { selectRange, selectPages, selectPageNumber, selectCurrentNoteId, selectTwoPage } from "../Book/bookReducer";
-import { disableNextPage } from "../Book/bookReducer";
-import { addNote, deleteNote } from "./noteReducer";
+import {
+    selectRange,
+    selectPages,
+    selectPageNumber,
+    selectCurrentNoteId,
+    selectTwoPage,
+    bookActions,
+} from "../../slice/bookSlice";
+import { disableNextPage } from "../../slice/bookSlice";
+import { noteActions } from "../../slice/noteSlice";
+
+import api from "../../api";
 
 export default function RightSidebar() {
     const dispatch = useDispatch();
@@ -23,13 +31,17 @@ export default function RightSidebar() {
     const pageNumber = useSelector(selectPageNumber);
     const currentNoteId = useSelector(selectCurrentNoteId);
     const twoPage = useSelector(selectTwoPage);
+    const { nextPage, prevPage, setRange, setCurrentNoteId } = bookActions;
+    const { addNote, deleteNote } = noteActions;
 
-    const handleAddNote = () => {
-        dispatch(addNote(range));
+    const handleAddNote = async () => {
+        const note = await api.addNote(range);
+        dispatch(addNote(note));
         dispatch(setRange(null));
     };
 
-    const handleDeleteNote = () => {
+    const handleDeleteNote = async () => {
+        await api.deleteNote(currentNoteId);
         dispatch(deleteNote(currentNoteId));
         dispatch(setCurrentNoteId(null));
     };

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPage, ILine } from "./books";
-import { RootState } from "../../store";
+import { IPage, ILine } from "../app/Book/books";
+import { RootState } from "../store";
+import api from "../api";
 
 interface IRange {
     firstCharId: number;
@@ -47,6 +48,7 @@ const bookSlice = createSlice({
 
             if (state.twoPage) state.pageNumber += 2;
             else state.pageNumber += 1;
+            api.setLastRead(state.pageNumber);
 
             state.currentNoteId = null;
             state.range = null;
@@ -56,9 +58,13 @@ const bookSlice = createSlice({
 
             if (state.twoPage) state.pageNumber -= 2;
             else state.pageNumber -= 1;
+            api.setLastRead(state.pageNumber);
 
             state.currentNoteId = null;
             state.range = null;
+        },
+        setPageNumber: (state, actions: PayloadAction<number>) => {
+            state.pageNumber = actions.payload;
         },
         setPages: (state, actions: PayloadAction<IPage[]>) => {
             state.pages = actions.payload;
@@ -79,8 +85,7 @@ const bookSlice = createSlice({
 });
 
 export default bookSlice.reducer;
-export const { nextPage, prevPage, setPages, setPageLoading, setRange, setCurrentNoteId, setTwoPage } =
-    bookSlice.actions;
+export const bookActions = bookSlice.actions;
 export const selectRange = (state: RootState) => state.book.range;
 export const selectPages = (state: RootState) => state.book.pages;
 export const selectPageNumber = (state: RootState) => state.book.pageNumber;

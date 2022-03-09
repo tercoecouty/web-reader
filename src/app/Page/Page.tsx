@@ -5,8 +5,7 @@ import "./Page.less";
 import Bookmark from "../Bookmark/Bookmark";
 import Line from "./Line";
 
-import { setCurrentNoteId } from "../Book/bookReducer";
-import { selectPages, selectPageLoading, selectPageNumber } from "../Book/bookReducer";
+import { selectPages, selectPageNumber, selectPageLoading, bookActions } from "../../slice/bookSlice";
 
 interface IPageProps {
     isSecondPage?: boolean;
@@ -14,10 +13,12 @@ interface IPageProps {
 
 function Page(props: IPageProps) {
     const dispatch = useDispatch();
-    const _pageNumber = useSelector(selectPageNumber);
-    const pageNumber = props.isSecondPage ? _pageNumber + 1 : _pageNumber;
     const pages = useSelector(selectPages);
+    const _pageNumber = useSelector(selectPageNumber);
     const loading = useSelector(selectPageLoading);
+
+    const { setCurrentNoteId } = bookActions;
+    const pageNumber = props.isSecondPage ? _pageNumber + 1 : _pageNumber;
 
     const getPageContent = () => {
         console.log("getPageContent");

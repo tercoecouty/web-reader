@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import BookmarkImage from "./bookmark.png";
 import BookmarkFilledImage from "./bookmark-filled.png";
 
-import { addBookMark, removeBookMark } from "./bookmarkReducer";
-import { selectBookmarks } from "./bookmarkReducer";
+import { bookmarkActions } from "../../slice/bookmarkSlice";
+import { selectBookmarks } from "../../slice/bookmarkSlice";
+
+import api from "../../api";
 
 interface IPageHeadProps {
     pageNumber?: number;
@@ -14,13 +16,19 @@ interface IPageHeadProps {
 export default function Bookmark(props: IPageHeadProps) {
     const dispatch = useDispatch();
     const bookmarks = useSelector(selectBookmarks);
+    const { addBookmark, removeBookmark } = bookmarkActions;
     const pageNumber = props.pageNumber;
 
     const hasBookmark = bookmarks.includes(pageNumber);
 
-    const handleClick = () => {
-        if (hasBookmark) dispatch(removeBookMark(pageNumber));
-        else dispatch(addBookMark(pageNumber));
+    const handleClick = async () => {
+        if (hasBookmark) {
+            await api.removeBookmark(pageNumber);
+            dispatch(removeBookmark(pageNumber));
+        } else {
+            await api.addBookmark(pageNumber);
+            dispatch(addBookmark(pageNumber));
+        }
     };
 
     return (

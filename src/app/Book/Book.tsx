@@ -4,16 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Book.less";
 import Page from "../Page/Page";
 
-import getBookText from "../../api/getBookText";
+import api from "../../api";
 import Books from "./books";
 
-import { setPages, setPageLoading, setRange, nextPage, prevPage } from "./bookReducer";
-import { selectRange, selectTwoPage } from "./bookReducer";
+import { bookActions, selectRange, selectTwoPage } from "../../slice/bookSlice";
+import { bookmarkActions } from "../../slice/bookmarkSlice";
+import { noteActions } from "../../slice/noteSlice";
 
 export default function Book() {
     const dispatch = useDispatch();
     const range = useSelector(selectRange);
     const twoPage = useSelector(selectTwoPage);
+    const { setPages, setPageLoading, setRange, nextPage, prevPage } = bookActions;
     const [bookText, setBookText] = useState("");
     const [resizeTimer, setResizeTimer] = useState(null);
 
@@ -29,10 +31,25 @@ export default function Book() {
     };
 
     useEffect(() => {
-        getBookText().then((bookText) => {
-            setBookText(bookText);
-            setTimeout(() => loadPage(bookText), 100);
-        });
+        api.getLastRead()
+            .then((lastRead) => {
+                dispatch(bookActions.setPageNumber(lastRead));
+                console.log("lastRead", lastRead);
+                return api.getBookmarks();
+            })
+            .then((bookmarks) => {
+                console.log(bookmarks);
+                dispatch(bookmarkActions.setBookmark(bookmarks));
+                return api.getNotes();
+            })
+            .then((notes) => {
+                dispatch(noteActions.setNotes(notes));
+                return api.getBookText();
+            })
+            .then((bookText) => {
+                setBookText(bookText);
+                setTimeout(() => loadPage(bookText), 100);
+            });
     }, []);
 
     useEffect(() => {
