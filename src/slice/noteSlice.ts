@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ILine } from "../app/Book/books";
 
-interface IRange {
-    firstCharId: number;
-    lastCharId: number;
-    text: string;
-}
-
 interface INote {
     id: number;
     text: string;

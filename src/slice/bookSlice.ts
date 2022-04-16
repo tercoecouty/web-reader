@@ -68,6 +68,10 @@ const bookSlice = createSlice({
         },
         setPages: (state, actions: PayloadAction<IPage[]>) => {
             state.pages = actions.payload;
+            if (state.pageNumber > state.pages.length) {
+                state.pageNumber = 1;
+                api.setLastRead(state.pageNumber);
+            }
         },
         setPageLoading: (state, actions: PayloadAction<boolean>) => {
             state.pageLoading = actions.payload;

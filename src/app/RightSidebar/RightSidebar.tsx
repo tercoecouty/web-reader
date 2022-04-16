@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./RightSidebar.less";
-import SidebarItem from "../../component/SidebarItem/SidebarItem";
+import SidebarItem from "../SidebarItem/SidebarItem";
 
-import FullscreenSvg from "./svg/fullscreen.svg";
 import ArrowRightSvg from "./svg/arrow-right.svg";
 import ArrowLeftSvg from "./svg/arrow-left.svg";
 import UnderlineSvg from "./svg/underline.svg";
-import EditOutSvg from "./svg/edit.svg";
+import EditSvg from "./svg/edit.svg";
 import DeleteSvg from "./svg/delete.svg";
+
+import Drawer from "../../component/Drawer/Drawer";
+import EditNote from "../EditNote/EditNote";
 
 import {
     selectRange,
@@ -33,6 +35,7 @@ export default function RightSidebar() {
     const twoPage = useSelector(selectTwoPage);
     const { nextPage, prevPage, setRange, setCurrentNoteId } = bookActions;
     const { addNote, deleteNote } = noteActions;
+    const [editNote, setEditNote] = useState(true);
 
     const handleAddNote = async () => {
         const note = await api.addNote(range);
@@ -48,7 +51,6 @@ export default function RightSidebar() {
 
     return (
         <div className="right-sidebar">
-            <SidebarItem svg={FullscreenSvg} title="全屏" disabled />
             <SidebarItem
                 svg={ArrowLeftSvg}
                 title="上一页"
@@ -63,7 +65,10 @@ export default function RightSidebar() {
             />
             <SidebarItem svg={UnderlineSvg} title="划线" onClick={handleAddNote} disabled={!range} />
             <SidebarItem svg={DeleteSvg} title="删除笔记" onClick={handleDeleteNote} disabled={!currentNoteId} />
-            <SidebarItem svg={EditOutSvg} title="编辑笔记" disabled />
+            <SidebarItem svg={EditSvg} title="编辑笔记" onClick={() => setEditNote(true)} disabled={!currentNoteId} />
+            <Drawer visible={editNote} onClose={() => setEditNote(false)}>
+                <EditNote />
+            </Drawer>
         </div>
     );
 }

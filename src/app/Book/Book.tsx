@@ -34,11 +34,9 @@ export default function Book() {
         api.getLastRead()
             .then((lastRead) => {
                 dispatch(bookActions.setPageNumber(lastRead));
-                console.log("lastRead", lastRead);
                 return api.getBookmarks();
             })
             .then((bookmarks) => {
-                console.log(bookmarks);
                 dispatch(bookmarkActions.setBookmark(bookmarks));
                 return api.getNotes();
             })

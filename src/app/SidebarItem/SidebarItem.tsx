@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./SidebarItem.less";
-import Icon from "../Icon/Icon";
+import Icon from "../../component/Icon/Icon";
 
 interface ISidebarItemProps {
     disabled?: boolean;

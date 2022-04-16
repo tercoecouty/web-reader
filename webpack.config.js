@@ -19,7 +19,19 @@ let config = {
             },
             {
                 test: /\.less$/,
-                use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
+                use: [
+                    isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+                    // {
+                    //     loader: "css-loader",
+                    //     options: {
+                    //         modules: {
+                    //             localIdentName: "[local]_[hash:base64:8]",
+                    //         },
+                    //     },
+                    // },
+                    "css-loader",
+                    "less-loader",
+                ],
             },
             {
                 test: /\.txt$/,

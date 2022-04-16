@@ -34,6 +34,12 @@ interface INote {
     lastCharId: number;
 }
 
+interface IUser {
+    id: number;
+    name: string;
+    avatarUrl: string;
+}
+
 class Api {
     private bookmarks: Item<number[]> = new Item("bookmarks", []);
     private lastRead: Item<number> = new Item("lastRead", 1);
@@ -84,6 +90,16 @@ class Api {
     async deleteNote(noteId: number) {
         const _notes = this.notes.get().filter((note) => note.id !== noteId);
         this.notes.set(_notes);
+    }
+
+    async getUserInfo() {
+        const userInfo: IUser = {
+            id: 1,
+            name: "小明",
+            avatarUrl: "",
+        };
+
+        return userInfo;
     }
 }
 
